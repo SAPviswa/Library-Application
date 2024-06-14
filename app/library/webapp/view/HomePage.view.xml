@@ -1,0 +1,73 @@
+<mvc:View
+    xmlns:commons="sap.suite.ui.commons"
+    id="mainView"
+    controllerName="com.app.library.controller.HomePage"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:tnt="sap.tnt"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    displayBlock="true"
+>
+    <Page
+        id="libraryPage"
+        showHeader="false"
+        class="libpage"
+    >
+
+        <ScrollContainer
+            id="scrollContainer"
+            vertical="true"
+            height="100%"
+        >
+            <tnt:ToolHeader
+                id="toolHeader"
+                class="sapUiTinyMargin"
+                height="10%"
+            >
+                <Image
+                    id="logoImage"
+                    src="./Images/book.jpg"
+                    decorative="true"
+                    height="100px"
+                    width="90px"
+                    press="onLogoPressed"
+                    tooltip="Library Logo"
+                />
+                <Title
+                    id="productName"
+                    text="Central library"
+                    wrapping="true"
+                    textAlign="Right"
+                />
+                <ToolbarSpacer id="toolbarSpacer" />
+                <Button
+                    id="loginButton"
+                    icon="sap-icon://visits"
+                    text="Login"
+                    press="onPressLogin"
+                />
+                <Button
+                    id="signupButton"
+                    icon="sap-icon://add-employee"
+                    text="Signup"
+                    press="onBtnSignup"
+                />
+            </tnt:ToolHeader>
+
+    <html:marquee behavior="scroll" direction="left" scrollamount="5">
+        Welcome to the Central Library. Have a nice day!😊
+    </html:marquee>
+            <HBox id="_IDlibHBox1">
+                <HBox id="_IDlibHBox2">
+                    <Text id="_IDlibText1"
+                        text="About Us:&#10; Welcome to the Central Library! We are committed to providing a diverse collection of resources to support learning, 
+                        research, and leisure for our community. Our library houses a vast collection of books, magazines, digital resources, 
+                        and multimedia materials for all ages and interests."
+                        width="50%"
+                        class="aboutlibrary"
+                    />
+                </HBox>
+            </HBox>
+        </ScrollContainer>
+    </Page>
+</mvc:View>

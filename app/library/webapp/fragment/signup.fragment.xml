@@ -1,0 +1,135 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns="sap.m"
+>
+    <Dialog
+        id="idsignupDialog"
+        resizable="true"
+        draggable="true"
+        title="signup Details"
+    >
+        <customHeader>
+            <Bar>
+            <contentMiddle>
+            <Text text="Create New account"></Text>
+            </contentMiddle>
+                <contentLeft>
+                    <Button
+                        id="cancelbtn1"
+                        icon="sap-icon://nav-back"
+                        press="onsignupcancelbtn"
+                    />
+                </contentLeft>
+            </Bar>
+        </customHeader>
+        <VBox
+            class="sapUiSmallMargin"
+            alignItems="Center"
+        >
+            <form:SimpleForm
+                id="idSimpleForm1"
+                layout="ResponsiveGridLayout"
+            >
+                <form:content>
+                    <Title
+                        class="signup"
+                        text="Signup Details"
+                        textAlign="Begin"
+                        
+                    />
+
+                    <Label
+                        class="username"
+                        text="User name"
+                        textAlign="Initial"
+                    />
+                    <Input
+                        class="input"
+                        id="user1"
+                        placeholder="Enter Username"
+                        type="Text"
+                        textAlign="Initial"
+                        value="{localModel>/userName}"
+                    />
+
+
+                    <Label
+                        class="Password"
+                        text="Password"
+                        textAlign="Initial"
+                    />
+                    <Input
+                        id="password1"
+                        type="Password"
+                        placeholder="Enter Password"
+                        textAlign="Initial"
+                         value="{localModel>/password}"
+                    />
+
+                    <Label
+                        class="email"
+                        text="Email"
+                        textAlign="Initial"
+                    />
+                    <Input
+                        class="input"
+                        id="email"
+                        placeholder="Enter email"
+                        type="Email"
+                        textAlign="Initial"
+                        liveChange="onEmailLiveChange"
+                         value="{localModel>/email}"
+                    />
+
+                    <Label
+                        class="phoneNumber"
+                        text="Phone Number"
+                        textAlign="Initial"
+                    />
+                    <Input
+                        class="input"
+                        id="phoneNumber"
+                        placeholder="Enter PhoneNumber"
+                        type="Number"
+                        textAlign="Initial"
+                        liveChange="onMobileVal"
+                         value="{localModel>/phoneNumber}"
+                    />
+                    <Label
+                        class="Address"
+                        text="Address"
+                        textAlign="Initial"
+                    />
+                    <Input
+                        class="input"
+                        id="Address"
+                        placeholder="Enter Address"
+                        textAlign="Initial"
+                         value="{localModel>/Address}"
+                    />
+                    
+                </form:content>
+            </form:SimpleForm>
+            <HBox
+                justifyContent="SpaceAround"             
+            >
+                        <Button
+                            id="btn1"
+                            icon="sap-icon://add-employee"
+                            text="signup"
+                            type="Emphasized"
+                            press="signupBtnClick"
+                            
+                        />  
+                        <Button
+                            id="btnClear"
+                            icon="sap-icon://clear-all"
+                            text="Clear"
+                            type="Transparent"
+                            press="clearInputs"
+                        />
+                    </HBox>
+        </VBox>
+    </Dialog>
+</core:FragmentDefinition>

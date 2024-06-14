@@ -1,0 +1,198 @@
+
+<mvc:View
+    controllerName="com.app.library.controller.AdminPage"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+>
+    <f:DynamicPage
+        class="sh"
+        id="idBooksListPage"
+        headerExpanded="true"
+    >
+        <f:title>
+            <f:DynamicPageTitle id="idBooksListPageTitle" class="admintitle">
+                <f:heading>
+                    <Title
+                        id="idBooksPageHeadingTitle"
+                        text="Admin Dashboard"
+                        class="library"
+                    />
+                </f:heading>
+                <f:navigationActions>
+                    <MenuButton
+                        id="adminProfiletMenuButton"
+                        text="Profile"
+                        type="Default"
+                        icon="sap-icon://person-placeholder"
+                    >
+                        <menu>
+                            <Menu>
+                             <MenuItem
+                                    text="Profile"
+                                    icon="sap-icon://person-placeholder"
+                                    press="onProfilePress"
+                                />
+                                <MenuItem
+                                    text="Logout"
+                                    icon="sap-icon://log"
+                                    press="onLogoutPress"
+                                />
+                            </Menu>
+                        </menu>
+                    </MenuButton>
+                </f:navigationActions>
+                <!-- <f:expandedContent>
+                    <Label id="labellll" text="Name: - {userName} "/>
+                </f:expandedContent> -->
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:header>
+            <f:DynamicPageHeader
+                id="idDynamicPageHeader"
+                pinnable="true"
+                class="adminheader"
+            />
+        </f:header>
+        <f:content>
+            <Table
+                class="admintable"
+                id="idBookTable"
+                mode="MultiSelect"
+                alternateRowColors="true"
+                items="{ path:'/Books', parameters: { $count : true }}"
+            >
+                <headerToolbar>
+                    <OverflowToolbar id="idBookTableHeader">
+                        <Title
+                            id="idTableHeaderTitle"
+                            class="classTableHeaderTitle"
+                            text="Total Titles: {/Books/$count}"
+                        />
+                        <ToolbarSpacer id="idTableHeaderSpacer" />
+                        <SearchField id="SearchField1" width="12rem" placeholder="Search" search="onSearch" />
+                        <Button
+                            id="idBtnCreate"
+                            icon="sap-icon://add"
+                            tooltip="Create Title"
+                            press="onCreateBtnPress"
+                        />
+                        <Button
+                            id="idBtnupdate"
+                            icon="sap-icon://edit"
+                            tooltip="Update Title"
+                            press="onUpdateBtnPress"
+                        />
+                        <Button
+                            id="idBtndelete"
+                            icon="sap-icon://delete"
+                            tooltip="Delete Title"
+                            press="onDeleteBtnPress"
+                        />
+
+                        <Button
+                            id="idActiveLoansFilterButtonValue"
+                            text="Active Loans"
+                            type="Emphasized"
+                            press="onActiveLoansFilterPress"
+                        />
+                        <Button
+                            id="idIssueBooksFilterButtonValue"
+                            text="Issue Title"
+                            type="Emphasized"
+                            press="onIssueBooksFilterPress"
+                        />
+                    </OverflowToolbar>
+                </headerToolbar>
+                <columns>
+                    <Column id="idISBNCol">
+                        <Title
+                            id="idISBNColTitle"
+                            text="ISBN"
+                        />
+                    </Column>
+                    <Column id="idtitleCol">
+                        <Title
+                            id="idTitleColTitle"
+                            text="Title"
+                        />
+                    </Column>
+                    
+                    <Column id="idAuthorCol" class="admintable">
+                        <Title
+                            id="idAuthorColTitle"
+                            text="Author"
+                        />
+                    </Column>
+
+                    <Column id="idQuantityCol" class="admintable">
+                        <Title
+                            id="idQuantityColTitle"
+                            text="Quantity"
+                        />
+                    </Column>
+                    <Column id="idavailableCol" class="admintable">
+                        <Title
+                            id="idavailableColTitle"
+                            text="Availability"
+                        />
+                    </Column>
+                        <Column id="idGenreCol" class="admintable">
+                        <Title
+                            id="idGenreColTitle"
+                            text="Genre"
+                        />
+                    </Column>
+                    <Column id="idlangCol" class="admintable" visible="false">
+                        <Title
+                            id="idlangColTitle"
+                            text="Language"
+                        />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem
+                        id="idBooksTableColListItem"
+                    >
+                        <cells>
+                            <Text
+                                id="idISBNColValue"
+                                text="{ISBN}"
+                            />
+                            <Text
+                                id="idtitleColValue"
+                                text="{title}"
+                            />
+                           
+                            <Text
+                                id="idauthorColValue"
+                                text="{author}"
+                            />
+
+                             <Text
+                                id="idquantityColValue"
+                                text="{quantity}"
+                            />
+                            <Text
+                                id="idavailablityColValue"
+                                text="{availability}"
+                            />
+                            <Text
+                                id="idgenreColValue"
+                                text="{genre}"
+                            />
+                            <Text
+                                id="idlangColValue"
+                                text="{language}"
+                            />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>

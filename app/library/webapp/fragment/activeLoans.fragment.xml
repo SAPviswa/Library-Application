@@ -1,0 +1,103 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns="sap.m"
+>
+    <Dialog
+        class="activeLoans"
+        id="idactiveloansDialog"
+        resizable="true"
+        draggable="true"
+        contentWidth="90%"
+        contentHeight="85%"
+        title="Active Loans Details"
+    >
+        <customHeader>
+            <Bar>
+                <contentLeft>
+                    <Button
+                        id="cancelbtn1"
+                        icon="sap-icon://nav-back"
+                        press="onactiveloanscancelbtn"
+                    />
+                </contentLeft>
+                <contentMiddle>
+                    <Text text="Active Loans Details" />
+                </contentMiddle>
+            </Bar>
+        </customHeader>
+        <VBox
+            class="cancelbtn"
+            alignItems="End"
+        />
+        <VBox
+            class="sapUiSmallMargin"
+            alignItems="Center"
+        >
+            <Table
+                id="activeloansTable"
+                mode="MultiSelect"
+                alternateRowColors="true"
+                items="{ path:'/ActiveLoans',  parameters : {
+            $count : true
+        }}"
+            >
+                <headerToolbar>
+                    <OverflowToolbar id="idActiveLoansTableHeader">
+                        <Title
+                            id="idActiveloansTableHeaderTitle"
+                            class="classTableHeaderTitle"
+                            text="Total Active Loans: {/ActiveLoans/$count}"
+                        />
+                        <ToolbarSpacer />
+                        <Button id="idcloseloans" 
+                            text="Close Loans "
+                            press="onCloseloanpress"
+                            type="Emphasized" 
+                        />
+                    </OverflowToolbar>
+                </headerToolbar>
+                <columns>
+                    <Column>
+                        <Text text="Book ID" />
+                    </Column>
+                    <Column>
+                        <Text text="ISBN" />
+                    </Column>
+                    <Column>
+                        <Text text="Title" />
+                    </Column>
+                    <Column>
+                        <Text text="User Id" />
+                    </Column>
+                    <Column>
+                        <Text text="User Name" />
+                    </Column>
+                    <Column>
+                        <Text text="Issue Date" />
+                    </Column>
+                    <Column>
+                        <Text text="Due Date" />
+                    </Column>
+                    <Column visible="false">
+                        <Text text="Availability" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <Text text="{book/ID}" />
+                            <Text text="{book/ISBN}" />
+                            <Text text="{book/title}" />
+                            <Text text="{user/ID}" />
+                            <Text text="{user/userName}" />
+                            <Text text="{issueDate}" />
+                            <Text text="{dueDate}" />
+                            <Text text="{book/availability}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </VBox>
+    </Dialog>
+</core:FragmentDefinition>

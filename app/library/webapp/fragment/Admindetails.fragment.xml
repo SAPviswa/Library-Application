@@ -1,0 +1,21 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <Dialog
+        title="User Profile"
+        class="sapUiPopupWithPadding"
+        draggable="true"
+    >
+        <HBox class="sapUiContentPadding">
+            <Label id="adminEmail" text="Email:"/>
+            <Text id="userEmail" text="{email}"/>
+        </HBox>
+            <Label id="adminName" text="Username:"/>
+            <Text id="userName" text="{userName}"/>
+            <HBox >
+            <Label id="adminPhno" text="Phone no:"/>
+            <Text id="userPhno"  text="{ path: 'phoneNumber', formatter: '.formatPhoneNumber' }"/>
+            </HBox>
+        <beginButton>
+            <Button id="detailsBoxClose" text="Close" press="onCloseProfile"/>
+        </beginButton>
+    </Dialog>
+</core:FragmentDefinition>

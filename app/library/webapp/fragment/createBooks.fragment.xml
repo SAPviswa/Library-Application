@@ -1,0 +1,121 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns="sap.m"
+>
+    <Dialog
+        id="idCreateBooksDialog"
+        resizable="true"
+        draggable="true"
+        contentWidth="40%"
+        title="Add new Title"
+    >
+        <beginButton>
+            <Button
+                id="idCreateButton"
+                text="Create"
+                press="onCreate"
+                type="Emphasized"
+            />
+        </beginButton>
+        <endButton>
+            <Button
+                id="idCreateCancelButton"
+                text="Cancel"
+                press="onCloseCreateDialog"
+                type="Transparent"
+            />
+        </endButton>
+        <content>
+            <form:SimpleForm
+                id="idBookDetailsForm"
+                editable="true"
+                layout="ResponsiveGridLayout"
+                labelSpanXL="3"
+                labelSpanL="3"
+                labelSpanM="3"
+                labelSpanS="12"
+                adjustLabelSpan="false"
+                emptySpanXL="4"
+                emptySpanL="4"
+                emptySpanM="4"
+                emptySpanS="0"
+                columnsXL="1"
+                columnsL="1"
+                columnsM="1"
+                singleContainerFullSize="false"
+            >
+                <Label
+                    id="idCreateISBNLabel"
+                    text="ISBN"
+                />
+                <Input
+                    id="idCerateISBNinput"
+                    value="{localModel>/ISBN}"
+                    placeholder="Enter ISBN"
+                />
+                <Label
+                    id="idCeratetitleLabel"
+                    text="Title"
+                />
+                 <Input
+                    id="idCeratetitleInput"
+                    value="{localModel>/title}"
+                    placeholder="Enter title"
+                />
+                <Label
+                    id="idCerateauthorLabel"
+                    text="Author"
+                />
+                <Input
+                    id="idCerateauthorInput"
+                    value="{localModel>/author}"
+                    placeholder="Enter Author name"
+                />
+
+                
+                <Label
+                    id="idCerateQuantityLabel"
+                    text="Quantity"
+                />
+                <Input
+                    id="idCerateQuantityInput"
+                    value="{localModel>/quantity}"
+                    placeholder="Enter Quantity"
+                />
+                <Label
+                    id="idCerategenreLabel"
+                    text="genre"
+                />
+                <Input
+                    id="idCerategenreInput"
+                    value="{localModel>/genre}"
+                    placeholder="Enter Genre"
+                />
+                
+                <Label
+                    id="idCeratelanguageLabel"
+                    text="Language"
+                />
+                <Input
+                    id="idCeratelanguageInput"
+                    value="{localModel>/language}"
+                    placeholder="Enter Language"
+                />
+
+                <Label
+                    id="idCerateAvailabilityLabel"
+                    text="availability"
+                    visible="false"
+                />
+                <Input
+                    id="idCerateavailabilityInput"
+                    value="{localModel>/quantity}"
+                    placeholder="Enter Available quantity"
+                    visible="false"
+                />
+
+            </form:SimpleForm>
+        </content>
+    </Dialog>
+</core:FragmentDefinition>

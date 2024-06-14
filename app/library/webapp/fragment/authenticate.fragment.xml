@@ -1,0 +1,94 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns="sap.m"
+>
+    <Dialog
+        id="idloginDialog"
+        resizable="true"
+        draggable="true"
+        contentWidth="20%"
+        title="Login Details"
+    >
+        <customHeader>
+            <Bar>
+                <contentLeft>
+                    <Button
+                        id="cancelbtn"
+                        icon="sap-icon://nav-back"
+                        press="oncancelbtn"
+                    />
+                </contentLeft>
+                <contentMiddle>
+                    <Text text="Login to your account" textAlign="Center" class="loginheader"/>
+                </contentMiddle>
+            </Bar>
+        </customHeader>
+        <VBox class="sapUiSmallMargin" alignItems="Center">
+            <form:SimpleForm
+                id="idSimpleForm"
+                layout="ResponsiveGridLayout"
+                class="loginform"
+            >
+                <form:content>
+                    <Title
+                        id="idFormTitle"
+                        class="login"
+                        text="Login Details"
+                        textAlign="Begin"
+                    />
+
+                    <Label
+                        id="idUserNameLable"
+                        class="username"
+                        text="Username"
+                        textAlign="Initial"
+                    />
+                    <Input
+                        class="input"
+                        id="user"
+                        placeholder="Enter Username"
+                        width="80%"
+                        textAlign="Initial"
+                    />
+
+                    <Label
+                        id="idPasswordLable"
+                        class="password"
+                        text="Password"
+                        textAlign="Initial"
+                    />
+                    <Input
+                        id="pswd"
+                        type="Password"
+                        placeholder="Enter Password"
+                        width="80%"
+                        textAlign="Initial"
+                    />
+                    <HBox
+                        id="accessBtns"
+                        alignItems="Center"
+                        class="sapUiSmallMarginTop"
+                    >
+                        <ToolbarSpacer id="_IDGenToolbarSpacer0" width="70px" />
+                        <Button
+                            icon="sap-icon://visits"
+                            id="btn"
+                            text="Login"
+                            type="Emphasized"
+                            press="loginBtnClick"
+                        />
+                        <ToolbarSpacer id="_IDGenToolbarSpacer1" width="20px" />
+                        <Button
+                            icon="sap-icon://clear-all"
+                            id="ClearBtn"
+                            text="Clear"
+                            type="Emphasized"
+                            press="onClearFilterPress"
+                        />
+                    </HBox>
+                </form:content>
+            </form:SimpleForm>
+        </VBox>
+    </Dialog>
+</core:FragmentDefinition>

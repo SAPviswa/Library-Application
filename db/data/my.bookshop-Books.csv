@@ -1,0 +1,12 @@
+ID,ISBN,title,quantity,author,genre,language,availability
+b244958a-1cae-11ef-adc4-325096b39f47,978-3-16-145410-0,Pride and Prejudice,10,Jane Austen,Romance,English,10
+cfb6ff0e-1cae-11ef-badc-325096b39f49,978-1-4028-9162-6,The Adventures of Huckleberry Finn,33,Mark Twain,Adventure,English,33
+cfb6ff0e-1cae-11ef-badc-325096b39f45,978-0-306-40615-7,1984,15,George Orwell,Dystopian,English,15
+e943ac92-1cae-11ef-8a76-325096b39f47,978-0-262-13472-9,Harry Potter and the Sorcerer's Stone,25,J.K. Rowling,Fantasy,English,25
+f6e56782-1cae-11ef-a065-325096b39f47,978-0-596-52068-7,Hamlet,5,William Shakespeare,Tragedy,English,5
+ce5741e2-5143-4bcb-94ba-510f0d0747d7,978-0-7432-7356-5,War and Peace,7,Leo Tolstoy,Historical Fiction,English,7
+498787fb-303f-4c25-8292-a97ee7867da2,978-1-86197-876-9,A Tale of Two Cities,10,Charles Dickens,Historical Fiction,English,10
+296e8e45-6642-4603-8fe5-36ebe78db8fc,978-0-7432-7357-2,Wuthering Heights,34,Emily Brontë,Gothic Fiction,English,34
+4eb17f3b-2bb9-423b-8db5-7177b4255798,978-0-307-27997-7,The Great Gatsby,20,F. Scott Fitzgerald,Literary Fiction,English,20
+4eb17f3b-2bb9-423b-8db5-7177b4255796,978-0-385-53092-5,The Old Man and the Sea,19,Ernest Hemingway,Adventure,English,19
+

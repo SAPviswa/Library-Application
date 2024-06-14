@@ -1,0 +1,13 @@
+ID,userName,password,email,phoneNumber,Address,userType
+48d98520-1375-11ef-b537-325096b39f47,Alice Johnson,User1@001,user1@gmail.com," 9876543210",Mumbai,user
+671d9170-1375-11ef-864f-325096b39f47,Robert Smith,User2@002,user2@gmail.com," 8765432109",Bengaluru Urban,user
+817706a0-1375-11ef-ae01-325096b39f47,Maria Garcia,User3@003,user3@gmail.com," 7654321098",Chennai,user
+9dc3d464-1375-11ef-98da-325096b39f47,David Brown,User4@004,user4@gmail.com," 6543210987",Kolkata,user
+b8a67fd4-1375-11ef-8e75-325096b39f47,Emily Davis,User5@005,user5@gmail.com," 8432109876",Hyderabad,user
+d2a3d6f1-364f-4191-90b7-8c0121b32db4,Michael Wilson,User6@006,user6@gmail.com," 9321098765",Ahmedabad,user
+c359dbde-e432-4b13-8ac2-bb650338b0cb,Sarah Martinez,User7@007,user7@gmail.com," 9876532109 ",Pune,user
+5ebc47a9-c73d-48e5-8320-68a1d2509a3a,John Anderson,User8@008,user8@gmail.com," 9109876543",Jaipur,user
+9b899726-faea-4abc-8019-398cd8568317,Jessica Thompson,User9@009,user9@gmail.com," 9098765432",Lucknow,user
+532bc1c4-9283-4e22-8871-f671eaa46f0d,Daniel White,User10@0010,user10@gmail.com," 9987654321",Bhopal,user
+90e7a1db-091b-43dd-b65d-d8b905bde862,Harris,Admin@000,admin@gmail.com," 8876543219",Kochi,Admin
+0d2f1bfa-ded7-4e6c-ac33-4dcfb505970d,Daniel,User11@0011,user11@gmail.com," 9876543910",Mumbai,user

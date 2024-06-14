@@ -1,0 +1,111 @@
+
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns="sap.m"
+>
+    <Dialog
+        id="idissuebooksDialog"
+        resizable="true"
+        draggable="true"
+        contentWidth="80%"
+        contentHeight="80%"
+        title="Issue Books Details"
+    >
+       <customHeader>
+            <Bar>
+                    <contentLeft>
+                    <Button
+                        id="onissuecancelbtn"
+                        icon="sap-icon://nav-back"
+                        press="onissuebookscancelbtn"
+                        tooltip="Go back"
+                    />
+                    </contentLeft>
+                <contentMiddle>
+                    <Text text="Issue Title Details"></Text>
+                </contentMiddle>
+            </Bar>
+        </customHeader>
+        <VBox
+            class="cancelbtn"
+            alignItems="End"
+        />
+        <VBox
+            class="sapUiSmallMargin"
+            alignItems="Center"
+        >
+            <Table
+                class="issuebooksheader"
+                id="issuebooksTable"
+                mode="MultiSelect"
+                alternateRowColors="true"
+                items="{ path:'/IssueBooks',  parameters : { $count : true }}" 
+            >
+                <headerToolbar>
+                    <OverflowToolbar id="IssueBooksTableHeader" class="issuebookheader">
+                        <Title
+                            id="idIssueBooksTableHeaderTitle"
+                            class="classTableHeaderTitle"
+                            text="Total Issue Titles: {/IssueBooks/$count}"
+                        />
+                        <ToolbarSpacer />
+                        <HBox id="adminActionbtn">
+                            <Button 
+                                id="idreservebtn"
+                                class="adminActionbtn"
+                                text="Issue title"
+                                tooltip="Issue Title"
+                                press="onReservebtnpress"
+                                type="Emphasized"
+                            />
+                        </HBox>
+                    </OverflowToolbar>
+                </headerToolbar>
+                <columns>
+                    <!-- <Column visible="false">
+                        <Text text="Book Id"/>
+                    </Column> -->
+                    <Column>
+                        <Text text="ISBN"/>
+                    </Column>
+                    <!-- <Column>
+                        <Text text="Reservation Id"
+                        visible="false"/>
+                    </Column> -->
+                    <Column>
+                        <Text text="User Id"/>
+                    </Column>
+                    <Column>
+                        <Text text="User Name"/>
+                    </Column>
+                    <Column>
+                        <Text text="Title"/>
+                    </Column>
+                    <Column visible="false">
+                        <Text text="Availability" visible="false"/>
+                    </Column>
+                    <Column class="issuebookheader">
+                        <Text text="Reserve Date"/>
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <!-- <Text text="{book/ID}"
+                            visible="false"/> -->
+                            <Text text="{book/ISBN}"/>
+                            <!-- <Text text="{ID}"
+                            visible="false"/> -->
+                            <Text text="{user/ID}"/>
+                            <Text text="{user/userName}"/>
+                            <Text text="{book/title}"/>
+                            <Text text="{book/availability}" visible="false"/>
+                            <Text text="{reservedDate}"/>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </VBox>
+    </Dialog>
+</core:FragmentDefinition>

@@ -1,0 +1,60 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns="sap.m"
+>
+    <Dialog
+        id="idnotifyDialog"
+        resizable="true"
+        draggable="true"
+        contentWidth="50%"
+        contentHeight="40%"
+        title="Login Details"
+    >
+        <customHeader>
+            <Bar>
+            <contentMiddle>
+            <Text text="Notifications"></Text>
+            </contentMiddle>
+                <contentLeft>
+                    <Button
+                        id="cancelbtn"
+                        icon="sap-icon://nav-back"
+                        press="onCloseDialog"
+                    />
+                </contentLeft>
+            </Bar>
+        </customHeader>
+            <Table
+        id="idUserLoans"
+         
+        alternateRowColors="true"
+        backgroundDesign="Transparent"
+        items="{activeLoans}"
+    >
+        <columns>
+            <Column id="idIsbnColumn">
+                <!-- <Title
+                    id="idIsbntitle"
+                    text="Notification about Issued title"
+                /> -->
+            </Column>
+           
+        </columns>
+ 
+        <items>
+            <ColumnListItem id="idColumnListBooksLoan">
+                <cells>
+                    <Text
+                        id="idBISBNvalue"
+                        text="{notify}"
+                    />
+                   
+                </cells>
+            </ColumnListItem>
+        </items>
+    </Table>
+       
+       
+    </Dialog>
+</core:FragmentDefinition>
