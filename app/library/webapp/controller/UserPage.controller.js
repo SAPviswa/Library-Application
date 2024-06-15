@@ -73,7 +73,7 @@ sap.ui.define([
             } else {
             }
         },
-
+        
         onCloseDialog: function() {
             if (this.notificationDialog.isOpen()) {
                 this.notificationDialog.close();

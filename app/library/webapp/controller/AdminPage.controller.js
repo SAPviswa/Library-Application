@@ -131,88 +131,125 @@ sap.ui.define([
             },
             onDeleteBtnPress: async function () {
                 var aSelectedItems = this.byId("idBookTable").getSelectedItems();
-                if (aSelectedItems.length > 0) {
-                    var aISBNs = [];
-                    aSelectedItems.forEach(function (oSelectedItem) {
-                        var sISBN = oSelectedItem.getBindingContext().getObject().isbn;
-                        aISBNs.push(sISBN);
-                        oSelectedItem.getBindingContext().delete("$auto");
-                        
-                    });
- 
-                    Promise.all(aISBNs.map(function (sISBN) {
-                        return new Promise(function (resolve, reject) {
-                            resolve( " Successfully Deleted");
-                        });
-                    })).then(function (aMessages) {
-                        aMessages.forEach(function (sMessage) {
-                            MessageToast.show(sMessage);
-                        });
-                    }).catch(function (oError) {
-                        MessageToast.show("Deletion Error: " + oError);
-                    });
- 
-                    this.getView().byId("idBookTable").removeSelections(true);
-                    this.getView().byId("idBookTable").getBinding("items").refresh();
-                } else {
+                if (aSelectedItems.length === 0) {
                     MessageToast.show("Select titles to delete.");
-                };
-               
+                    return;
+                }
+                
+                // Add confirmation dialog before deleting
+                MessageBox.confirm("Are you sure you want to delete the selected books?", {
+                    actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+                    onClose: function(oAction) {
+                        if (oAction === MessageBox.Action.YES) {
+                            var aISBNs = [];
+                            aSelectedItems.forEach(function (oSelectedItem) {
+                                var sISBN = oSelectedItem.getBindingContext().getObject().isbn;
+                                aISBNs.push(sISBN);
+                                oSelectedItem.getBindingContext().delete("$auto");
+                            });
+
+                            Promise.all(aISBNs.map(function (sISBN) {
+                                return new Promise(function (resolve, reject) {
+                                    resolve("Successfully Deleted");
+                                });
+                            })).then(function (aMessages) {
+                                aMessages.forEach(function (sMessage) {
+                                    MessageToast.show(sMessage);
+                                });
+                            }).catch(function (oError) {
+                                MessageToast.show("Deletion Error: " + oError);
+                            });
+
+                            this.getView().byId("idBookTable").removeSelections(true);
+                            this.getView().byId("idBookTable").getBinding("items").refresh();
+                        }
+                    }.bind(this)
+                });
             },
+            // onCreate: async function () {
+            //     var oPayload = this.getView().getModel("localModel").getProperty("/"),
+            //         oModel = this.getView().getModel("ModelV2");
+            //         oPayload.availability=oPayload.quantity;
+            //         this.getView().getModel("localModel").setData(oPayload);
+            //         if (!(oPayload.ISBN && oPayload.author && oPayload.availability && oPayload.genre && oPayload.language  && oPayload.quantity && oPayload.title)) {
+            //             MessageToast.show("Enter all details");
+            //             return
+            //         }
+    
+            //         try {
+            //             const oTitleExist = await this.checkTitle(oModel, oPayload.title, oPayload.ISBN)
+            //             if (oTitleExist) {
+            //                 MessageToast.show("Book already exsist")
+            //                 return
+            //             }
+          
+            //         await this.createData(oModel, oPayload, "/Books");
+            //         this.createDialog.close();
+            //         this.getView().byId("idBookTable").getBinding("items").refresh();
+            //         // Show success message
+            //         MessageToast.show("New Title is added");
+            //     } catch (error) {
+            //         this.createDialog.close();
+            //         MessageBox.error("some technical Issue")
+            //     }
+               
+            // },
             onCreate: async function () {
                 var oPayload = this.getView().getModel("localModel").getProperty("/"),
                     oModel = this.getView().getModel("ModelV2");
-                    oPayload.availability=oPayload.quantity;
-                    this.getView().getModel("localModel").setData(oPayload);
-                    if (!(oPayload.ISBN && oPayload.author && oPayload.availability && oPayload.genre && oPayload.language  && oPayload.quantity && oPayload.title)) {
-                        MessageToast.show("Enter all details");
-                        return
+                
+                oPayload.availability = oPayload.quantity;
+                this.getView().getModel("localModel").setData(oPayload);
+                
+                // Check if all required fields are entered
+                if (!(oPayload.ISBN && oPayload.author && oPayload.availability && oPayload.genre && oPayload.language && oPayload.quantity && oPayload.title)) {
+                    MessageToast.show("Enter all details");
+                    return;
+                }
+                
+                // Validate ISBN length (must be exactly 13 characters)
+                if (oPayload.ISBN.length !== 17) {
+                    MessageToast.show("ISBN must be 13 characters long");
+                    return;
+                }
+            
+                try {
+                    // Check if title already exists
+                    const titleExist = await this.checkTitle(oModel, oPayload.title, oPayload.ISBN);
+                    if (titleExist) {
+                        MessageToast.show("Book with the same Title and ISBN already exists");
+                        return;
                     }
-    
-                    try {
-                        const oTitleExist = await this.checkTitle(oModel, oPayload.title, oPayload.ISBN)
-                        if (oTitleExist) {
-                            MessageToast.show("Book already exsist")
-                            return
-                        }
-          
+            
+                    // Create new book data
                     await this.createData(oModel, oPayload, "/Books");
-                    this.getView().byId("idBookTable").getBinding("items").refresh();
                     this.createDialog.close();
+                    this.getView().byId("idBookTable").getBinding("items").refresh();
+            
                     // Show success message
                     MessageToast.show("New Title is added");
                 } catch (error) {
                     this.createDialog.close();
-                    MessageBox.error("some technical Issue")
+                    MessageBox.error("Some technical issue occurred");
                 }
-               
             },
+            
             checkTitle: async function (oModel, stitle, sISBN) {
                 return new Promise((resolve, reject) => {
                     oModel.read("/Books", {
                         filters: [
                             new Filter("title", FilterOperator.EQ, stitle),
                             new Filter("ISBN", FilterOperator.EQ, sISBN)
-
                         ],
                         success: function (oData) {
                             resolve(oData.results.length > 0);
                         },
                         error: function () {
-                            reject(
-                                "An error occurred while checking username existence."
-                            );
+                            reject("An error occurred while checking book existence.");
                         }
-                    })
-                })
+                    });
+                });
             },
-            
-            // onUpdateBtnPress: async function () {
-            //     if (!this.updateDialog) {
-            //         this.updateDialog = await this.loadFragment("updateBooks")
-            //     }
-            //     this.updateDialog.open();
-            // },
             onCloseUpdateDialog: function () {
                 if (this.updateDialog.isOpen()) {
                     this.updateDialog.close()
@@ -243,108 +280,68 @@ sap.ui.define([
             },
  
  
-            // onCloseloanpress: async function () {
-            //     var aSelectedItems = this.byId("activeloansTable").getSelectedItems();
-            //     var obj = this.byId("activeloansTable").getSelectedItem().getBindingContext().getObject(),
-            //     oId=obj.book.ID,
-            //     oAvaiable = obj.book.availability+1;
-            //     const userModel = new sap.ui.model.json.JSONModel({
-                   
-            //         book:{
-            //             availability:oAvaiable
-            //         }
- 
-            //     });
-            //     this.getView().setModel(userModel, "userModel");
- 
-            //     const oPayload = this.getView().getModel("userModel").getProperty("/"),
-            //         oModel = this.getView().getModel("ModelV2");
-            //         try{
-            //             oModel.update("/Books(" + oId + ")", oPayload.book, {
-            //                 success: function() {
-            //                      this.getView().byId("idBooksTable").getBinding("items").refresh();//
-            //                     //this.oEditBooksDialog.close();
-            //                 },
-            //                 error: function(oError) {
-            //                     //this.oEditBooksDialog.close();
-            //                     sap.m.MessageBox.error("Failed to update book: " + oError.message);
-            //                 }.bind(this)
-            //             });
-            //         }catch (error) {
-            //             //this.oCreateBooksDialog.close();
-            //             sap.m.MessageBox.error("Some technical Issue");
-            //         }
-    
-            //     if (aSelectedItems.length > 0) {
-            //         var aISBNs = [];
-            //         aSelectedItems.forEach(function (oSelectedItem) {
-            //             var sISBN = oSelectedItem.getBindingContext().getObject().isbn;
-            //             aISBNs.push(sISBN);
-            //             oSelectedItem.getBindingContext().delete("$auto");
-            //         });
- 
-            //         Promise.all(aISBNs.map(function (sISBN) {
-            //             return new Promise(function (resolve, reject) {
-            //                 resolve("Loan closed successfully ");
-            //             });
-            //         })).then(function (aMessages) {
-            //             aMessages.forEach(function (sMessage) {
-            //                 MessageToast.show(sMessage);
-            //             });
-            //         }).catch(function (oError) {
-            //             MessageToast.show("Deletion Error: " + oError);
-            //         });
- 
-            //         //this.getView().byId("activeloansTable").removeSelections(true);
-            //         this.getView().byId("activeloansTable").getBinding("items").refresh();
-            //     } else {
-            //         MessageToast.show("Please Select Rows to Delete");
-            //     };
-            //     //location.reload();
-           
-
-            // },
             onCloseloanpress: async function () {
                 var aSelectedItems = this.byId("activeloansTable").getSelectedItems();
                 var obj = this.byId("activeloansTable").getSelectedItem().getBindingContext().getObject(),
-                    oId = obj.book.ID,
-                    oAvaiable = obj.book.availability + 1;
-            
-                // Update book availability
+                oId=obj.book.ID,
+                oAvaiable = obj.book.availability+1;
                 const userModel = new sap.ui.model.json.JSONModel({
-                    book: {
-                        availability: oAvaiable
+                   
+                    book:{
+                        availability:oAvaiable
                     }
+ 
                 });
                 this.getView().setModel(userModel, "userModel");
-            
-                // Update the book entry in the model
+ 
                 const oPayload = this.getView().getModel("userModel").getProperty("/"),
                     oModel = this.getView().getModel("ModelV2");
-            
-                try {
-                    oModel.update("/Books(" + oId + ")", oPayload.book, {
-                        success: function () {
-                            // Refresh activeloansTable after successful update
-                            this.getView().byId("activeloansTable").getBinding("items").refresh();
-                        }.bind(this),
-                        error: function (oError) {
-                            sap.m.MessageBox.error("Failed to update book: " + oError.message);
-                        }
-                    });
-            
-                    // Remove selected items from activeloansTable
+                    try{
+                        oModel.update("/Books(" + oId + ")", oPayload.book, {
+                            success: function() {
+                                 this.getView().byId("idBooksTable").getBinding("items").refresh();//
+                                //this.oEditBooksDialog.close();
+                            },
+                            error: function(oError) {
+                                //this.oEditBooksDialog.close();
+                                sap.m.MessageBox.error("Failed to update book: " + oError.message);
+                            }.bind(this)
+                        });
+                    }catch (error) {
+                        //this.oCreateBooksDialog.close();
+                        sap.m.MessageBox.error("Some technical Issue");
+                    }
+    
+                if (aSelectedItems.length > 0) {
+                    var aISBNs = [];
                     aSelectedItems.forEach(function (oSelectedItem) {
+                        var sISBN = oSelectedItem.getBindingContext().getObject().isbn;
+                        aISBNs.push(sISBN);
                         oSelectedItem.getBindingContext().delete("$auto");
                     });
-            
-                    // Show success message
-                    MessageToast.show("Loan closed successfully");
-            
-                } catch (error) {
-                    sap.m.MessageBox.error("Some technical issue occurred");
-                }
+ 
+                    Promise.all(aISBNs.map(function (sISBN) {
+                        return new Promise(function (resolve, reject) {
+                            resolve("Loan closed successfully ");
+                        });
+                    })).then(function (aMessages) {
+                        aMessages.forEach(function (sMessage) {
+                            MessageToast.show(sMessage);
+                        });
+                    }).catch(function (oError) {
+                        MessageToast.show("Deletion Error: " + oError);
+                    });
+ 
+                    //this.getView().byId("activeloansTable").removeSelections(true);
+                    this.getView().byId("activeloansTable").getBinding("items").refresh();
+                } else {
+                    MessageToast.show("Please Select Rows to Delete");
+                };
+                //location.reload();
+           
+
             },
+           
             onUpdateBtnPress: async function () {
                 var oSelected = this.byId("idBookTable").getSelectedItems();
             
@@ -390,54 +387,92 @@ sap.ui.define([
                 }
                 
             },
-            onUpdate: function() {
+        //     onUpdate: function() {
   
-                var oQ = parseInt(this.getView().byId("idQuantityInput").getValue());
-                var oAq = parseInt(this.getView().byId("idavailabilityInput").getValue());
-                if (this.oQuantity < oQ) {
-                    oQ = oQ - this.oQuantity
-                    oAq = oAq + oQ
-                }
-                else if (this.oQuantity > oQ) {
-                    oQ = this.oQuantity - oQ
-                    oAq = oAq - oQ
-                }
-                else {
-                    oAq = oAq
-                }
-                var oPayload = this.getView().getModel("newBookModel").getData();
-                oPayload.availability = oAq
-                this.getView().getModel("newBookModel").setData(oPayload);
-                var oDataModel = this.getOwnerComponent().getModel("ModelV2");// Assuming this is your OData V2 model
-                console.log(oDataModel.getMetadata().getName());
+        //         var oQ = parseInt(this.getView().byId("idQuantityInput").getValue());
+        //         var oAq = parseInt(this.getView().byId("idavailabilityInput").getValue());
+        //         if (this.oQuantity < oQ) {
+        //             oQ = oQ - this.oQuantity
+        //             oAq = oAq + oQ
+        //         }
+        //         else if (this.oQuantity > oQ) {
+        //             oQ = this.oQuantity - oQ
+        //             oAq = oAq - oQ
+        //         }
+        //         else {
+        //             oAq = oAq
+        //         }
+        //         var oPayload = this.getView().getModel("newBookModel").getData();
+        //         oPayload.availability = oAq
+        //         this.getView().getModel("newBookModel").setData(oPayload);
+        //         var oDataModel = this.getOwnerComponent().getModel("ModelV2");// Assuming this is your OData V2 model
+        //         console.log(oDataModel.getMetadata().getName());
 
-                try {
+        //         try {
 
-                    oDataModel.update("/Books(" + oPayload.ID + ")", oPayload, {
-                        success: function() {
-                            this.getView().byId("idBookTable").getBinding("items").refresh();
-                            this.updateDialog.close();
-                                // Show success message
-                                MessageToast.show("Updated Successfully ");
-                        }.bind(this),
-                        error: function(oError) {
-                            this.updateDialog.close();
-                            sap.m.MessageBox.error("Failed to update book: " + oError.message);
-                        }.bind(this)
-                    });
-                } catch (error) {
-                    this.updateDialog.close();
-                    sap.m.MessageBox.error("Some technical Issue");
-                }
+        //             oDataModel.update("/Books(" + oPayload.ID + ")", oPayload, {
+        //                 success: function() {
+        //                     this.getView().byId("idBookTable").getBinding("items").refresh();
+        //                     this.updateDialog.close();
+        //                         // Show success message
+        //                         MessageToast.show("Updated Successfully ");
+        //                 }.bind(this),
+        //                 error: function(oError) {
+        //                     this.updateDialog.close();
+        //                     sap.m.MessageBox.error("Failed to update book: " + oError.message);
+        //                 }.bind(this)
+        //             });
+        //         } catch (error) {
+        //             this.updateDialog.close();
+        //             sap.m.MessageBox.error("Some technical Issue");
+        //         }
             
             
-                var oDataModel = new sap.ui.model.odata.v2.ODataModel({
-                    serviceUrl: "https://port4004-workspaces-ws-nhljh.us10.trial.applicationstudio.cloud.sap/v2/BooksSrv",
-                    defaultBindingMode: sap.ui.model.BindingMode.TwoWay,
-                    // Configure message parser
-                    messageParser: sap.ui.model.odata.ODataMessageParser
-                })  
+        //         var oDataModel = new sap.ui.model.odata.v2.ODataModel({
+        //             serviceUrl: "https://port4004-workspaces-ws-nhljh.us10.trial.applicationstudio.cloud.sap/v2/BooksSrv",
+        //             defaultBindingMode: sap.ui.model.BindingMode.TwoWay,
+        //             // Configure message parser
+        //             messageParser: sap.ui.model.odata.ODataMessageParser
+        //         })  
+        // },
+        onUpdate: function() {
+            var oQ = parseInt(this.getView().byId("idQuantityInput").getValue());
+            var oAq = parseInt(this.getView().byId("idavailabilityInput").getValue());
+        
+            // Check if availability is greater than quantity
+            if (oAq > oQ) {
+                sap.m.MessageToast.show("Availability cannot be greater than Quantity");
+                return;
+            }
+        
+            // Calculate changes in availability
+            var deltaQuantity = oQ - this.oQuantity;
+            var newAvailability = this.oAq + deltaQuantity;
+        
+            var oPayload = this.getView().getModel("newBookModel").getData();
+            oPayload.availability = newAvailability;
+        
+            try {
+                var oDataModel = this.getOwnerComponent().getModel("ModelV2"); // Assuming this is your OData V2 model
+        
+                oDataModel.update("/Books(" + oPayload.ID + ")", oPayload, {
+                    success: function() {
+                        this.getView().byId("idBookTable").getBinding("items").refresh();
+                        this.updateDialog.close();
+                        // Show success message
+                        sap.m.MessageToast.show("Updated Successfully ");
+                    }.bind(this),
+                    error: function(oError) {
+                        this.updateDialog.close();
+                        sap.m.MessageBox.error("Failed to update book: " + oError.message);
+                    }.bind(this)
+                });
+            } catch (error) {
+                this.updateDialog.close();
+                sap.m.MessageBox.error("Some technical issue occurred");
+            }
         },
+        
         onReservebtnpress:async function (oEvent) {
             if(this.byId("issuebooksTable").getSelectedItems().length>1){
                 MessageToast.show("Please Select only one Book");
@@ -446,7 +481,7 @@ sap.ui.define([
             var oSelectedBook=this.byId("issuebooksTable").getSelectedItem().getBindingContext().getObject(),
             oAval=oSelectedBook.book.availability-1;
             var current=new Date();
-            let due=new Date(current.getFullYear(),current.getMonth(),current.getDay()+18)
+            let due=new Date(current.getFullYear(),current.getMonth(),current.getDay()+19)
         
             const userModel = new sap.ui.model.json.JSONModel({
                 book_ID : oSelectedBook.book.ID,
@@ -454,7 +489,7 @@ sap.ui.define([
                 issueDate: new Date(),
                 dueDate:due,
                 notify:
-                `${oSelectedBook.book.title} Title is issued`,
+                `${oSelectedBook.book.title} Title is issued by Admin`,
                 book:{
                     availability:oAval
                 }

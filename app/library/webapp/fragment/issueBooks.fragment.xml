@@ -16,7 +16,7 @@
             <Bar>
                     <contentLeft>
                     <Button
-                        id="onissuecancelbtn"
+                        id="onissuecancelbtn1234"
                         icon="sap-icon://nav-back"
                         press="onissuebookscancelbtn"
                         tooltip="Go back"

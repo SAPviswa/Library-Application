@@ -97,11 +97,21 @@
                     id="idCeratelanguageLabel"
                     text="Language"
                 />
-                <Input
+                <!-- <Input
                     id="idCeratelanguageInput"
                     value="{localModel>/language}"
                     placeholder="Enter Language"
-                />
+                /> -->
+                 <ComboBox
+                    id="idCeratelanguageComboBox"
+                    selectedKey="{localModel>/language}"
+                    placeholder="Select Language"
+                >
+                    <core:Item key="English" text="English"/>
+                    <core:Item key="Spanish" text="Spanish"/>
+                    <core:Item key="French" text="French"/>
+                </ComboBox>
+
 
                 <Label
                     id="idCerateAvailabilityLabel"

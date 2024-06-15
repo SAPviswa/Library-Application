@@ -1,7 +1,8 @@
-namespace my.bookshop; 
+namespace my.bookshop;
 
 using {cuid} from '@sap/cds/common';
-entity Books : cuid { 
+
+entity Books : cuid {
 
   ISBN         : String;
   title        : String;
@@ -10,13 +11,13 @@ entity Books : cuid {
   genre        : String;
   language     : String;
   availability : Integer;
-  user:Association to Users;
+  user         : Association to Users;
   activeLoans  : Composition of many ActiveLoans
                    on activeLoans.book = $self;
 
 }
-@assert.unique:{
-userName: [userName],
+
+@assert.unique: {userName: [userName],
 
 }
 entity Users : cuid {
@@ -26,23 +27,26 @@ entity Users : cuid {
   phoneNumber : Integer64;
   Address     : String;
   userType    : String;
-  book:Association to many Books on book.user=$self;
+  book        : Association to many Books
+                  on book.user = $self;
   activeLoans : Association to many ActiveLoans
                   on activeLoans.user = $self;
-  issueBooks:Association to many IssueBooks on issueBooks.user=$self;
+  issueBooks  : Association to many IssueBooks
+                  on issueBooks.user = $self;
 
 
 }
+
 entity ActiveLoans : cuid {
   book      : Association to Books;
   user      : Association to Users;
   issueDate : Date;
   dueDate   : Date;
-  notify:String
+  notify    : String
 }
 
-entity IssueBooks:cuid{
-  book:Association to Books;
-  user:Association to Users;
-  reservedDate:Date;
+entity IssueBooks : cuid {
+  book         : Association to Books;
+  user         : Association to Users;
+  reservedDate : Date;
 }

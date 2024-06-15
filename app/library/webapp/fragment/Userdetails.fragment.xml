@@ -8,12 +8,14 @@
             <Label id="userEmail" text="Email:"/>
             <Text id="Email" text="{email}"/>
         </HBox>
+        <HBox >
             <Label id="userName" text="Username:"/>
             <Text id="Name" text="{userName}"/>
-            <HBox >
+        </HBox>
+        <HBox >
             <Label id="userPhno" text="Phone no:"/>
             <Text id="Phno"  text="{ path: 'phoneNumber', formatter: '.formatPhoneNumber' }"/>
-            </HBox>
+        </HBox>
         <beginButton>
             <Button id="userdetailsBoxClose" text="Close" press="onCloseProfile"/>
         </beginButton>

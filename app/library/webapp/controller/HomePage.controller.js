@@ -29,14 +29,6 @@ sap.ui.define([
                 this.getView().setModel(oLocalModel, "localModel");
             },
 
-            // onPressLogin: function () {
-            //     const router = this.getOwnerComponent().getRouter();
-            //     router.navTo("RouteUserLoginPage")
-            // },
-            // AdminLogin: function () {
-            //     const orouter = this.getOwnerComponent().getRouter();
-            //     orouter.navTo("RouteAdminLoginPage")
-            // },
             onPressLogin: async function () {
                 if (!this.loginDialog) {
                     this.loginDialog = await this.loadFragment("authenticate")
