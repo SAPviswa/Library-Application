@@ -95,25 +95,65 @@ sap.ui.define([
             },
 
 
+        // onSearch: function (oEvent) {
+        //     // Get the search query
+        //     var sQuery = oEvent.getParameter("query");
+
+        //     // Build filters based on the search query
+        //     var aFilters = [];
+        //     if (sQuery) {
+        //         aFilters.push(new sap.ui.model.Filter({
+        //             filters: [
+        //                 new sap.ui.model.Filter("title", sap.ui.model.FilterOperator.Contains, sQuery),
+        //                 new sap.ui.model.Filter("author", sap.ui.model.FilterOperator.Contains, sQuery),
+        //                 new sap.ui.model.Filter("genre", sap.ui.model.FilterOperator.Contains, sQuery)
+        //             ],
+        //             and: false
+        //         }));
+        //     }
+        //     // Get the table and binding
+        //     var oTable = this.byId("idBookTable");
+        //     var oBinding = oTable.getBinding("items");
+        //     // Apply the filters to the binding
+        //     oBinding.filter(aFilters);
+        // },
         onSearch: function (oEvent) {
             // Get the search query
             var sQuery = oEvent.getParameter("query");
-
+        
             // Build filters based on the search query
             var aFilters = [];
             if (sQuery) {
-                aFilters.push(new sap.ui.model.Filter({
-                    filters: [
-                        new sap.ui.model.Filter("title", sap.ui.model.FilterOperator.Contains, sQuery),
-                        new sap.ui.model.Filter("author", sap.ui.model.FilterOperator.Contains, sQuery),
-                        new sap.ui.model.Filter("genre", sap.ui.model.FilterOperator.Contains, sQuery)
-                    ],
-                    and: false
-                }));
+                // Check if the query is a number
+                if (!isNaN(sQuery)) {
+                    aFilters.push(new sap.ui.model.Filter({
+                        filters: [
+                            new sap.ui.model.Filter("ISBN", sap.ui.model.FilterOperator.Contains, sQuery),
+                            new sap.ui.model.Filter("title", sap.ui.model.FilterOperator.Contains, sQuery),
+                            new sap.ui.model.Filter("author", sap.ui.model.FilterOperator.Contains, sQuery),
+                            new sap.ui.model.Filter("genre", sap.ui.model.FilterOperator.Contains, sQuery),
+                            new sap.ui.model.Filter("quantity", sap.ui.model.FilterOperator.EQ, parseInt(sQuery, 10)),
+                            new sap.ui.model.Filter("availability", sap.ui.model.FilterOperator.EQ, parseInt(sQuery, 10)),
+                        ],
+                        and: false
+                    }));
+                } else {
+                    aFilters.push(new sap.ui.model.Filter({
+                        filters: [
+                            new sap.ui.model.Filter("ISBN", sap.ui.model.FilterOperator.Contains, sQuery),
+                            new sap.ui.model.Filter("title", sap.ui.model.FilterOperator.Contains, sQuery),
+                            new sap.ui.model.Filter("author", sap.ui.model.FilterOperator.Contains, sQuery),
+                            new sap.ui.model.Filter("genre", sap.ui.model.FilterOperator.Contains, sQuery),
+                        ],
+                        and: false
+                    }));
+                }
             }
+        
             // Get the table and binding
             var oTable = this.byId("idBookTable");
             var oBinding = oTable.getBinding("items");
+        
             // Apply the filters to the binding
             oBinding.filter(aFilters);
         },
@@ -207,9 +247,9 @@ sap.ui.define([
                     return;
                 }
                 
-                // Validate ISBN length (must be exactly 13 characters)
+                // Validate ISBN length (must be exactly 17 characters)
                 if (oPayload.ISBN.length !== 17) {
-                    MessageToast.show("ISBN must be 13 characters long");
+                    MessageToast.show("ISBN must be 17 characters long");
                     return;
                 }
             

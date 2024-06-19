@@ -49,7 +49,39 @@ sap.ui.define(
                 // Apply the filters to the binding
                 oBinding.filter(aFilters);
             },
-            onReservePress: async function(oEvent) {
+            // onReservePress: async function(oEvent) {
+            //     var oSelectedItem = oEvent.getSource();
+            //     var userId = this.ID;
+
+            //     if (this.byId("idAllBookTable").getSelectedItems().length > 1) {
+            //         MessageToast.show("Please Select only one Book");
+            //         return;
+            //     }
+
+            //     var oSelectedBook = this.byId("idAllBookTable").getSelectedItem().getBindingContext().getObject();
+            //     var oQuantity = oSelectedBook.availability - 1;
+
+            //     const userModel = new sap.ui.model.json.JSONModel({
+            //         user_ID: userId,
+            //         book_ID: oSelectedBook.ID,
+            //         reservedDate: new Date(),
+            //         book: {
+            //             availability: oQuantity
+            //         }
+            //     });
+            //     this.getView().setModel(userModel, "userModel");
+
+            //     const oPayload = this.getView().getModel("userModel").getProperty("/"),
+            //         oModel = this.getView().getModel("ModelV2");
+
+            //     try {
+            //         await this.createData(oModel, oPayload, "/IssueBooks");
+            //         sap.m.MessageBox.success("You reserved a title.");
+            //     } catch (error) {
+            //         sap.m.MessageBox.error("Some technical Issue");
+            //     }
+            // }
+            onReservePress: function(oEvent) {
                 var oSelectedItem = oEvent.getSource();
                 var userId = this.ID;
 
@@ -60,26 +92,34 @@ sap.ui.define(
 
                 var oSelectedBook = this.byId("idAllBookTable").getSelectedItem().getBindingContext().getObject();
                 var oQuantity = oSelectedBook.availability - 1;
+                var sBookTitle = oSelectedBook.title;
 
-                const userModel = new sap.ui.model.json.JSONModel({
-                    user_ID: userId,
-                    book_ID: oSelectedBook.ID,
-                    reservedDate: new Date(),
-                    book: {
-                        availability: oQuantity
-                    }
+                MessageBox.confirm(`Do you want to reserve the book "${sBookTitle}"?`, {
+                    actions: [MessageBox.Action.YES, MessageBox.Action.CANCEL],
+                    onClose: async function(oAction) {
+                        if (oAction === MessageBox.Action.OK) {
+                            const userModel = new sap.ui.model.json.JSONModel({
+                                user_ID: userId,
+                                book_ID: oSelectedBook.ID,
+                                reservedDate: new Date(),
+                                book: {
+                                    availability: oQuantity
+                                }
+                            });
+                            this.getView().setModel(userModel, "userModel");
+
+                            const oPayload = this.getView().getModel("userModel").getProperty("/"),
+                                oModel = this.getView().getModel("ModelV2");
+
+                            try {
+                                await this.createData(oModel, oPayload, "/IssueBooks");
+                                // sap.m.MessageBox.success("You reserved the book.");
+                            } catch (error) {
+                                sap.m.MessageBox.error("Some technical issue occurred.");
+                            }
+                        }
+                    }.bind(this)
                 });
-                this.getView().setModel(userModel, "userModel");
-
-                const oPayload = this.getView().getModel("userModel").getProperty("/"),
-                    oModel = this.getView().getModel("ModelV2");
-
-                try {
-                    await this.createData(oModel, oPayload, "/IssueBooks");
-                    sap.m.MessageBox.success("You reserved a title.");
-                } catch (error) {
-                    sap.m.MessageBox.error("Some technical Issue");
-                }
             }
         });
     }
