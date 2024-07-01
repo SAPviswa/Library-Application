@@ -8,6 +8,7 @@ modules:
     path: gen/srv
     requires:
       - name: central-library-system-db
+      - name: central-library-system-auth
     provides:
       - name: srv-api
         properties:
@@ -39,9 +40,24 @@ modules:
             - comapplibrary.zip
           name: comapplibrary
           target-path: resources/
+        - artifacts:
+            - comappcentrallibrarifiori.zip
+          name: comappcentrallibrarifiori
+          target-path: resources/
   - name: comapplibrary
     type: html5
     path: app/library
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm install
+        - npm run build:cf
+      supported-platforms:
+        []
+  - name: comappcentrallibrarifiori
+    type: html5
+    path: app/centrallibrari-fiori
     build-parameters:
       build-result: dist
       builder: custom
@@ -75,11 +91,29 @@ resources:
                 ProxyType: Internet
                 Type: HTTP
                 URL: https://ui5.sap.com
+              - Authentication: NoAuthentication
+                HTML5.DynamicDestination: true
+                HTML5.ForwardAuthToken: true
+                Name: central-library-system-srv-api
+                ProxyType: Internet
+                Type: HTTP
+                URL: ~{srv-api/srv-url}
             existing_destinations_policy: update
         version: 1.0.0
       service: destination
       service-name: central-library-system-destination-service
       service-plan: lite
+    requires:
+      - name: srv-api
+  - name: central-library-system-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: central-library-system-${org}-${space}
+        tenant-mode: dedicated
 parameters:
   deploy_mode: html5-repo
   enable-parallel-deployments: true

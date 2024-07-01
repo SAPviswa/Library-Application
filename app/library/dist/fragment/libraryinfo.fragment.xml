@@ -1,0 +1,70 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns="sap.m"
+>
+    <Dialog
+        id="idLibraryInformationDialog"
+        resizable="true"
+        draggable="true"
+        contentWidth="30%"
+        title="Books Available in Library"
+    >
+        <customHeader>
+            <Bar>
+            <contentLeft>
+            <Text text="Books Available in Library"></Text>
+            </contentLeft>
+                <contentRight>
+                    <Button
+                        id="cancelbtn11"
+                        icon="sap-icon://sys-cancel"
+                        press="onlibraryclosedialog"
+                        type="Reject"
+                    />
+                </contentRight>
+            </Bar>
+        </customHeader>
+            <Table
+        id="idUserLoans"
+         
+        alternateRowColors="true"
+        backgroundDesign="Transparent"
+        items="{/Books}"
+    >
+        <columns>
+            <Column id="idbookscolumn">
+                <Title
+                    id="idbookstitle"
+                    text="Book Titles"
+                />
+            </Column>
+            <Column id="idauthorcolumn">
+                <Title
+                    id="idbooksauthor"
+                    text="Author"
+                />
+            </Column>
+           
+        </columns>
+ 
+        <items>
+            <ColumnListItem id="idbooksitems">
+                <cells>
+                    <Text
+                        id="idBooksValue"
+                        text="{title}"
+                    />
+                   
+                   <Text
+                        id="idBooksAuthor"
+                        text="{author}"
+                    />
+                </cells>
+            </ColumnListItem>
+        </items>
+    </Table>
+       
+       
+    </Dialog>
+</core:FragmentDefinition>

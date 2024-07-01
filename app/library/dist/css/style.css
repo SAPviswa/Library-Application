@@ -1,0 +1,39 @@
+/* Enter your custom styles here */
+/* ************************************************************************** */
+/* *******************************HomePage CSS******************************* */
+/* ************************************************************************** */
+.libpage{
+    background-image: url("https://purepng.com/public/uploads/large/bundle-of-books-r6w.png");
+    background-size: 50% 50%; 
+    background-repeat: no-repeat; 
+    /* background-position: center;  */
+    background-position: center 80%;
+
+} 
+
+.aboutlibrary{
+    margin-top: 40px;
+    margin-left: 20px;
+    justify-content: baseline;
+    }
+
+/* ************************************************************************** */
+/* ************************************************************************** */
+
+
+.homepagetext{
+    color-scheme:dark ;
+    color:white;
+    font-size: larger;
+    font-weight: bolder;
+    padding-top: 510px;
+    padding-left: 150px;
+}
+.loginheader{
+    font-size: x-large;
+    font-family: 'Times New Roman', Times, serif;
+}
+.activeLoans{
+    width: 4800px;
+    height:400px;
+}

@@ -1,0 +1,61 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns="sap.m"
+>
+    <Dialog
+        id="idNotificationDialog"
+        resizable="true"
+        draggable="true"
+        contentWidth="30%"
+        title="Pending User Approvals"
+    >
+        <customHeader>
+            <Bar>
+                <contentLeft>
+                    <Text text="Notifications" />
+                </contentLeft>
+                <contentRight>
+                    <Button
+                        id="cancelBtn"
+                        icon="sap-icon://sys-cancel"
+                        press="onCloseDialog"
+                        type="Reject"
+                    />
+                </contentRight>
+            </Bar>
+        </customHeader>
+        <List
+            id="idUserApprovals"
+            items="{
+                path: '/Users',
+                filters: [
+                    {
+                        path: 'isApproved',
+                        operator: 'EQ',
+                        value1: false
+                    }
+                ]
+            }"
+        >
+            <items>
+                <CustomListItem>
+                    <HBox justifyContent="SpaceBetween" alignItems="Center">
+                        <Text text="{userName}" />
+                        <Text text="{email}" />
+                        <HBox>
+                            <Button
+                                text="Approve"
+                                press="onApproveUser"
+                            />
+                            <Button
+                                text="Reject"
+                                press="onRejectUser"
+                            />
+                        </HBox>
+                    </HBox>
+                </CustomListItem>
+            </items>
+        </List>
+    </Dialog>
+</core:FragmentDefinition>

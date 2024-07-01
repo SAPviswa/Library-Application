@@ -1,0 +1,170 @@
+
+<mvc:View
+    controllerName="com.app.library.controller.UserPage"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+>
+    <f:DynamicPage
+        id="idUserPage"
+        headerExpanded="false"
+        class="adminheader"
+    >
+        <f:title>
+            <f:DynamicPageTitle id="idusersListPageTitle" class="adminheader">
+                <f:heading>
+                    <HBox id="userPageHeader">
+                        <!-- <Title
+                            id="idUsersPageHeadingTitle"
+                            text="{userName} Dashboard"
+                        /> -->
+                        <Title
+                            id="idUsersPageHeading"
+                            text="User Dashboard"
+                        />
+                    </HBox>
+                </f:heading>
+                 <f:navigationActions>
+                 
+                    <MenuButton
+                        id="userProfiletMenuButton"
+                        text="Profile"
+                        type="Default"
+                        icon="sap-icon://person-placeholder"
+                    >
+                        <menu>
+                            <Menu>
+                             <MenuItem
+                                    text="Profile"
+                                    icon="sap-icon://person-placeholder"
+                                    press="onProfilePress"
+                                />
+                                <MenuItem
+                                    text="Logout"
+                                    icon="sap-icon://log"
+                                    press="onLogoutPress"
+                                />
+                            </Menu>
+                        </menu>
+                    </MenuButton>
+                    <Button
+                        id="idNotificationsFilterButtonValue"
+                        icon="sap-icon://bell"
+                        press="onNotificationFilterPress"
+                    />
+                </f:navigationActions>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:header>
+            <f:DynamicPageHeader
+                id="idDynamicPageHeader"
+                pinnable="false"
+                class="adminheader"
+            >
+                <!-- Header Content Removed -->
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
+            <Table
+                id="idUsersTable"
+                mode="SingleSelectMaster"
+                alternateRowColors="true"
+                items="{activeLoans}"
+            >
+                <headerToolbar>
+                    <OverflowToolbar id="idBookTableHeader">
+                        <Title
+                            id="idTableHeaderTitle"
+                            class="classTableHeaderTitle"
+                            text="Total Borrowed Titles"
+                        />
+                        <ToolbarSpacer id="idTableHeaderSpacer" />
+                        
+                        <!-- Added Buttons -->
+                        <Button
+                            id="idAllBooksFilterButtonValue"
+                            text="All Books"
+                            type="Emphasized"
+                            press="onAllBooksFilterPress"
+                        />
+                        
+                    </OverflowToolbar>
+                </headerToolbar>
+                <columns>
+                    <Column id="idISBNCol">
+                        <Title
+                            id="idISBNColTitle"
+                            text="ISBN"
+                        />
+                    </Column>
+                    <Column id="idtitleCol">
+                        <Title
+                            id="idTitleColTitle"
+                            text="Title"
+                        />
+                    </Column>
+                    <Column id="idAuthorCol">
+                        <Title
+                            id="idAuthorColTitle"
+                            text="Author"
+                        />
+                    </Column>
+                    <Column id="idGenreCol">
+                        <Title
+                            id="idGenreColTitle"
+                            text="Genre"
+                        />
+                    </Column>
+                    <Column id="idissueDateCol">
+                        <Title
+                            id="idIssueDateTitle"
+                            text="Issue Date"
+                        />
+                    </Column>
+                    <Column id="idDueDateCol">
+                        <Title
+                            id="idDueDateColTitle"
+                            text="Due Date"
+                        />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem
+                        id="idBooksTableColListItem"
+                    >
+                        <cells>
+                            <Text
+                                id="idISBNColValue"
+                                text="{book/ISBN}"
+                            />
+                            <Text
+                                id="idtitleColValue"
+                                text="{book/title}"
+                            />
+                            <Text
+                                id="idauthorColValue"
+                                text="{book/author}"
+                            />
+                            <Text
+                                id="idgenreColValue"
+                                text="{book/genre}"
+                            />
+                            <Text
+                                id="idIssueDateColValue"
+                                text="{issueDate}"
+                            />
+                            <Text
+                                id="idDuedateColValue"
+                                text="{dueDate}"
+                            />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </f:content>
+    </f:DynamicPage>
+</mvc:View>
